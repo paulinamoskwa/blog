@@ -5,16 +5,64 @@ title: ""
 <br>
 
 <center>
-<img src="./assets/robo.gif" width="100%">
+<img src="./_assets/robo.gif" width="100%">
 </center>
 
 <br>
 
 <br>
 
-<br>
+
+<p class="title_light">Hello, I'm <b>Paulina Moskwa</b></p>
+
 
 <br>
 
 <br>
+
+- I'm a machine learning engineer, writing in Python and C++.
+- I studied Mathematical Engineering @ Politecnico di Milano, in my sunny Italy. Shortly after I moved to Tampere, in Finland, where for the first time in my life I experienced -25°C.
+- I enjoy staying up-to-date with the [latest research papers]() and [experimenting]() with new models and frameworks whenever I can. In particular, I like to tease VLMs with optical illusions.
+- Currently delving into parallel programming, specifically GPU & CUDA.
+
+<br>
+
+📍 Italian based in Finland<br>
+🎙️ We can talk in English, Italian, or Polish
+
+<br>
+
+<br>
+
+<br>
+
+
+<br> 
+
+<br>
+
+<hr>
+
+<p style="margin-bottom:30px;"> </p>
+
+<center>
+    <img height="30px" src="_assets/python.png">&emsp;
+    <img height="30px" src="_assets/cpp.png">&emsp;
+    <img height="26px" width="42px" src="_assets/cuda.png">&emsp;
+    <img height="30px" src="_assets/pytorch.png">&emsp;
+    <img height="30px" src="_assets/hf.png">&emsp;
+    <img height="30px" src="_assets/openai.png">&emsp;
+    <img height="30px" src="_assets/git.webp">&emsp;
+    <img height="30px" src="_assets/github.png">&emsp;
+    <img height="30px" src="_assets/gitlab.png">&emsp;
+    <img height="30px" src="_assets/docker.png">&emsp;
+    <img height="30px" src="_assets/unity.webp">&emsp;
+    <img height ="30px" src="_assets/linux.png">
+</center>
+
+<p style="margin-bottom:30px;"> </p>
+
+<hr>
+
+
 
