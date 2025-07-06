@@ -1,0 +1,18 @@
+version: '3'
+services:
+  site:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"      # Jekyll server port
+      - "35729:35729"    # LiveReload port
+    volumes:
+      - ./content:/app
+      - jekyll_bundle:/usr/local/bundle
+    environment:
+      - JEKYLL_ENV=development
+    command: bundle exec jekyll serve --host 0.0.0.0 --watch --livereload --force_polling
+
+volumes:
+  jekyll_bundle:

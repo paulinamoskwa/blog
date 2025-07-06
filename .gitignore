@@ -1,2 +1,11 @@
-blog/.quarto
 .git
+.idea
+
+content/.idea
+content/.jekyll-cache
+content/*.gem
+content/.bundle
+content/.DS_Store
+content/.sass-cache
+content/_site
+content/Gemfile.lock
