@@ -2,6 +2,7 @@
 title:          Paulina
 description:    "Personal Blog"
 url:            "https://paulinamoskwa.github.io"
+baseurl:        "/blog"
 
 # Google Analytics
 google_analytics: UA—XXXXXXXX-X
