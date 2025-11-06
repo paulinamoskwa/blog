@@ -48,3 +48,77 @@ ul {
     text-align: justify;
 
 }
+
+
+
+
+// NEWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw
+
+// GitHub Light Palette for Python (Jekyll/Rouge)
+.language-python {
+  background-color: #f6f8fa; // GitHub's light gray background
+
+  // Function names and function calls - Purple
+  .nf {
+    color: #8250df !important;
+  }
+
+  // Keywords (def, class, if, return, import, etc.) - Red
+  .k, .kn, .kd, .kr, .kc {
+    color: #cf222e !important;
+  }
+
+  // Strings - Blue
+  .s, .s1, .s2, .sb, .sc, .se {
+    color: #0a3069 !important;
+  }
+
+  // Numbers - Blue
+  .m, .mi, .mf, .mh, .mo {
+    color: #0550ae !important;
+  }
+
+  // Comments - Gray
+  .c, .c1, .cm, .ch {
+    color: #6e7781 !important;
+    font-style: italic;
+  }
+
+  // Class names - Purple
+  .nc {
+    color: #8250df !important;
+    font-weight: 600;
+  }
+
+  // Decorators - Gray-purple
+  .nd {
+    color: #8250df !important;
+  }
+
+  // Operators and punctuation - Default
+  .o, .p {
+    color: #24292f !important;
+  }
+
+  // Built-in functions (print, len, etc.) - Purple
+  .nb {
+    color: #8250df !important;
+  }
+
+  // Variables and names - Default dark
+  .n, .nx {
+    color: #24292f !important;
+  }
+
+  // Self, True, False, None - Blue
+  .bp {
+    color: #0550ae !important;
+  }
+
+  // F-strings prefix - Red
+  .sa {
+    color: #cf222e !important;
+  }
+}
+
+
