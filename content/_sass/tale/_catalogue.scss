@@ -1,8 +1,10 @@
 .catalogue {
   &-item {
+    align-items: center;
     border-bottom: 1px solid $grey-2;
     color: $default-color;
-    display: block;
+    display: flex;
+    gap: 1.5rem;
     padding: 2rem 0;
 
     /*
@@ -18,6 +20,31 @@
 
     &:last-child {
       border: 0;
+    }
+  }
+
+  &-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &-thumb {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    height: 9rem;
+    justify-content: center;
+    width: 12rem;
+
+    img {
+      border-radius: .4rem;
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    @media (max-width: 600px) {
+      display: none;
     }
   }
 
