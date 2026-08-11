@@ -1,5 +1,20 @@
+{% if post.preview %}
+  {% assign thumb_src = post.preview | prepend: site.baseurl %}
+{% else %}
+  {% assign img_parts = post.content | split: '<img src="' %}
+  {% if img_parts.size > 1 %}
+    {% assign thumb_src = img_parts[1] | split: '"' | first | replace: '../', '/' | prepend: site.baseurl %}
+  {% else %}
+    {% assign thumb_src = nil %}
+  {% endif %}
+{% endif %}
 <a href="{{ post.url | prepend: site.baseurl }}" class="catalogue-item">
-  <div>
+  {% if thumb_src %}
+  <div class="catalogue-thumb">
+    <img src="{{ thumb_src }}" alt="{{ post.title }}">
+  </div>
+  {% endif %}
+  <div class="catalogue-content">
     {% if include.sticky == 'true' %}
     <span class="catalogue-pinned">Pinned &middot;</span>
     {% endif %}
