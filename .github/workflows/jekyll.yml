@@ -20,8 +20,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Checkout private 3D lab
+        uses: actions/checkout@v4
+        with:
+          repository: paulinamoskwa/secret-lab
+          token: ${{ secrets.LAB_DEPLOY_TOKEN }}
+          path: _secret_lab
+      - name: Inject 3D lab into the site
+        run: |
+          cp -R _secret_lab/_layouts/. content/_layouts/
+          cp -R _secret_lab/media/. content/media/
+          rm -rf _secret_lab
+        
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
