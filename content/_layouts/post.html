@@ -23,6 +23,244 @@ layout: default
   {{ content }}
 </div>
 
+<style>
+  .post img:not(.emoji) {
+    cursor: zoom-in;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .post img:not(.emoji):hover {
+    transform: scale(1.01);
+  }
+  #img-lightbox {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    inset: 0;
+    background: rgba(18, 19, 23, 0.86);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 1.5rem;
+    overflow: hidden;
+    user-select: none;
+  }
+  #img-lightbox.active {
+    display: flex;
+  }
+  #img-lightbox-toolbar {
+    position: fixed;
+    top: 1.2rem;
+    right: 1.5rem;
+    z-index: 10001;
+    display: flex;
+    gap: 0.45rem;
+    background: rgba(30, 32, 38, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 6px;
+    padding: 0.35rem 0.55rem;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  #img-lightbox-toolbar button {
+    background: rgba(255, 255, 255, 0.1);
+    color: #f1f3f5;
+    border: none;
+    border-radius: 4px;
+    padding: 0.28rem 0.65rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  #img-lightbox-toolbar button:hover {
+    background: rgba(255, 255, 255, 0.24);
+  }
+  #img-lightbox-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 92vw;
+    height: 78vh;
+    overflow: hidden;
+    position: relative;
+  }
+  #img-lightbox img {
+    max-width: min(88vw, 1200px);
+    max-height: 76vh;
+    width: auto;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+    background: #fff;
+    margin: 0;
+    transform-origin: center center;
+    transition: transform 0.08s ease-out;
+    cursor: zoom-in;
+  }
+  #img-lightbox img.zoomed {
+    cursor: grab;
+  }
+  #img-lightbox img.zoomed:active {
+    cursor: grabbing;
+  }
+  #img-lightbox img.is-gif {
+    min-width: min(70vw, 920px);
+    background: #141519;
+  }
+  #img-lightbox-caption {
+    margin-top: 0.8rem;
+    color: #e8eaed;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.93rem;
+    max-width: min(82vw, 920px);
+    text-align: center;
+    line-height: 1.45;
+    z-index: 10001;
+  }
+</style>
+
+<div id="img-lightbox">
+  <div id="img-lightbox-toolbar" onclick="event.stopPropagation()">
+    <button type="button" id="lb-zoom-out" title="Zoom out">−</button>
+    <button type="button" id="lb-zoom-reset" title="Reset zoom">100%</button>
+    <button type="button" id="lb-zoom-in" title="Zoom in">+</button>
+    <button type="button" id="lb-close" title="Close (Esc)">✕</button>
+  </div>
+  <div id="img-lightbox-stage">
+    <img id="img-lightbox-target" src="" alt="" draggable="false">
+  </div>
+  <div id="img-lightbox-caption"></div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var lb = document.getElementById("img-lightbox");
+    var lbImg = document.getElementById("img-lightbox-target");
+    var lbCap = document.getElementById("img-lightbox-caption");
+    var btnIn = document.getElementById("lb-zoom-in");
+    var btnOut = document.getElementById("lb-zoom-out");
+    var btnReset = document.getElementById("lb-zoom-reset");
+    var btnClose = document.getElementById("lb-close");
+
+    var scale = 1;
+    var panX = 0;
+    var panY = 0;
+    var dragging = false;
+    var moved = false;
+    var startX = 0;
+    var startY = 0;
+
+    function applyTransform() {
+      lbImg.style.transform = "translate(" + panX + "px, " + panY + "px) scale(" + scale + ")";
+      btnReset.textContent = Math.round(scale * 100) + "%";
+      if (scale > 1.02) {
+        lbImg.classList.add("zoomed");
+      } else {
+        lbImg.classList.remove("zoomed");
+      }
+    }
+
+    function resetZoom() {
+      scale = 1;
+      panX = 0;
+      panY = 0;
+      applyTransform();
+    }
+
+    function setZoom(newScale) {
+      scale = Math.min(Math.max(newScale, 0.5), 4.5);
+      if (scale <= 1.02) {
+        panX = 0;
+        panY = 0;
+      }
+      applyTransform();
+    }
+
+    document.querySelectorAll(".post img:not(.emoji)").forEach(function (img) {
+      img.addEventListener("click", function (e) {
+        e.stopPropagation();
+        lbImg.src = img.src;
+        if (img.src.toLowerCase().indexOf(".gif") !== -1) {
+          lbImg.classList.add("is-gif");
+        } else {
+          lbImg.classList.remove("is-gif");
+        }
+        var cap = "";
+        var next = img.nextElementSibling;
+        if (next && next.innerText) {
+          cap = next.innerText;
+        } else if (img.alt) {
+          cap = img.alt;
+        }
+        lbCap.textContent = cap + "  (Scroll or click + / − to zoom, drag to pan)";
+        resetZoom();
+        lb.classList.add("active");
+      });
+    });
+
+    btnIn.addEventListener("click", function () { setZoom(scale + 0.35); });
+    btnOut.addEventListener("click", function () { setZoom(scale - 0.35); });
+    btnReset.addEventListener("click", function () { resetZoom(); });
+    btnClose.addEventListener("click", function () { lb.classList.remove("active"); });
+
+    lb.addEventListener("wheel", function (e) {
+      if (!lb.classList.contains("active")) return;
+      e.preventDefault();
+      var delta = e.deltaY < 0 ? 0.2 : -0.2;
+      setZoom(scale + delta);
+    }, { passive: false });
+
+    lbImg.addEventListener("mousedown", function (e) {
+      e.stopPropagation();
+      dragging = true;
+      moved = false;
+      startX = e.clientX - panX;
+      startY = e.clientY - panY;
+    });
+
+    window.addEventListener("mousemove", function (e) {
+      if (!dragging) return;
+      if (Math.abs(e.clientX - startX - panX) > 4 || Math.abs(e.clientY - startY - panY) > 4) {
+        moved = true;
+      }
+      if (scale > 1.02) {
+        panX = e.clientX - startX;
+        panY = e.clientY - startY;
+        applyTransform();
+      }
+    });
+
+    window.addEventListener("mouseup", function () {
+      dragging = false;
+    });
+
+    lbImg.addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (!moved) {
+        if (scale < 1.5) {
+          setZoom(2.2);
+        } else {
+          resetZoom();
+        }
+      }
+    });
+
+    lb.addEventListener("click", function (e) {
+      if (e.target === lb || e.target.id === "img-lightbox-stage") {
+        lb.classList.remove("active");
+      }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (!lb.classList.contains("active")) return;
+      if (e.key === "Escape") lb.classList.remove("active");
+      if (e.key === "+" || e.key === "=") setZoom(scale + 0.35);
+      if (e.key === "-") setZoom(scale - 0.35);
+      if (e.key === "0") resetZoom();
+    });
+  });
+</script>
+
 {% if page.comments %}
   {% include disqus_comments.html %}
 {% endif %}
