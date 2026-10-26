@@ -9,3 +9,15 @@ content/.DS_Store
 content/.sass-cache
 content/_site
 content/Gemfile.lock
+
+# 3D lab: lives in the private secret-lab repo
+content/_layouts/home_exhibition_saved.html
+content/media/*.glb
+content/media/mario_gbc_atlas.webp
+content/media/mslug3_atlas.webp
+content/media/mslug_logo_sticker.webp
+content/media/night_research_board_tex.webp
+content/media/oak_back_behavior_tex.webp
+content/media/whiteboard_attention_tex.webp
+content/media/detect_pikachu_preview.png
+.DS_Store
